@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>성경 두벌식 타자 연습</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="practice">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">두벌식 성경 단어</p>
+            <h1>타자 연습</h1>
+          </div>
+          <div class="stats" aria-label="연습 통계">
+            <div>
+              <span id="typedCount">0</span>
+              <small>완료</small>
+            </div>
+            <div>
+              <span id="accuracy">100%</span>
+              <small>정확도</small>
+            </div>
+            <div>
+              <span id="speed">0</span>
+              <small>타/분</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-tabs" id="levelTabs" role="tablist" aria-label="연습 레벨"></div>
+
+        <div class="word-stage" aria-live="polite">
+          <div class="level-label" id="levelLabel"></div>
+          <div class="target-word" id="targetWord"></div>
+          <input
+            id="typingInput"
+            class="typing-input"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            aria-label="성경 단어 입력"
+            placeholder="위 단어를 입력하세요"
+          >
+          <div class="feedback" id="feedback">한글 두벌식 입력 상태에서 시작하세요.</div>
+          <div class="progress" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="skipButton" type="button">다음 단어</button>
+          <button id="resetButton" type="button">기록 초기화</button>
+        </div>
+      </section>
+
+      <section class="keyboard" aria-label="두벌식 자판">
+        <div class="keyboard-row top" data-row="top"></div>
+        <div class="keyboard-row middle" data-row="middle"></div>
+        <div class="keyboard-row bottom" data-row="bottom"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

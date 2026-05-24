@@ -171,31 +171,216 @@ const RAW_LEVELS = [
     name: "1단계",
     label: "가운데 자판",
     rows: ["middle"],
-    words: ["하나님", "만나", "나라", "하나", "한나", "아론", "하란", "마라", "나아만", "아나니아"],
+      words: [
+        "하나님",
+        "한나",
+        "아론",
+        "하란",
+        "마라",
+        "나아만",
+        "아나니아",
+      "모리아",
+      "암몬",
+      "아람",
+      "노아",
+      "마노아",
+      "라마",
+      "로마",
+        "마리아",
+        "오난",
+        "말라",
+        "말론",
+        "호론",
+        "아모리",
+        "하몰",
+        "나홀",
+        "나함",
+        "하람",
+        "오홀라",
+        "나오미",
+        "나인",
+        "로암미",
+        "로루하마",
+        "아미",
+      ],
   },
   {
     name: "2단계",
     label: "가운데 + 윗 자판",
-    rows: ["middle", "top"],
-    words: ["성전", "성경", "선지자", "제자", "기도", "사랑", "제단", "광야", "세례", "예배"],
+      rows: ["middle", "top"],
+      words: [
+        "가나안",
+        "갈릴리",
+        "갈멜",
+        "길갈",
+        "겟세마네",
+        "골고다",
+        "고라",
+        "고멜",
+        "솔로몬",
+        "고린도",
+        "골로새",
+        "데살로니가",
+        "디모데",
+        "디도",
+        "빌레몬",
+        "빌립보",
+        "사마리아",
+        "사사기",
+        "사도행전",
+        "사라",
+        "사렙다",
+        "삼손",
+        "세일",
+        "소돔",
+        "아담",
+        "아벨",
+        "아모스",
+        "아비멜렉",
+        "야고보",
+        "야곱",
+        "에녹",
+        "에덴",
+        "에베소",
+        "에스더",
+        "에스라",
+        "엘리야",
+        "엘리사",
+        "엘리멜렉",
+        "여리고",
+        "예레미야",
+        "예수",
+        "요엘",
+        "요셉",
+        "요한",
+        "요한복음",
+        "이사야",
+        "이스라엘",
+        "호세아",
+        "하갈",
+        "바알",
+      ],
   },
   {
     name: "3단계",
     label: "가운데 + 아랫 자판",
     rows: ["middle", "bottom"],
-    words: ["나훔", "무리", "풍랑", "눈물", "마음", "울음", "푸른", "품", "흠", "춤"],
+      words: [
+        "나훔",
+        "우르",
+        "우림",
+        "후람",
+        "훌",
+        "후르",
+        "미리암",
+        "느훔",
+        "므라리",
+        "루포",
+        "울라",
+        "울람",
+      ],
   },
   {
     name: "4단계",
     label: "전체 자판",
     rows: ["middle", "top", "bottom"],
-    words: ["예수님", "성령", "십자가", "복음", "구원", "은혜", "말씀", "믿음", "천국", "베드로", "요한복음", "임마누엘"],
+      words: [
+        "예수님",
+        "예수",
+        "그리스도",
+        "성령",
+        "베드로",
+        "요한복음",
+        "임마누엘",
+      "사무엘",
+      "다윗",
+      "아브라함",
+      "이삭",
+      "야곱",
+      "요셉",
+      "모세",
+      "여호수아",
+      "사사기",
+      "룻",
+      "다니엘",
+      "느헤미야",
+      "에스더",
+      "욥",
+      "시편",
+      "잠언",
+      "전도서",
+      "이사야",
+      "예레미야",
+      "에스겔",
+      "호세아",
+      "요엘",
+      "아모스",
+      "오바댜",
+      "요나",
+      "미가",
+      "나훔",
+      "하박국",
+      "스바냐",
+      "학개",
+      "스가랴",
+      "말라기",
+        "마태복음",
+        "마가복음",
+        "누가복음",
+        "사도행전",
+        "로마서",
+        "고린도전서",
+        "고린도후서",
+        "갈라디아서",
+        "에베소서",
+        "빌립보서",
+        "골로새서",
+        "데살로니가전서",
+        "데살로니가후서",
+        "디모데전서",
+        "디모데후서",
+        "디도서",
+        "빌레몬서",
+        "히브리서",
+        "야고보서",
+        "베드로전서",
+        "베드로후서",
+        "요한일서",
+        "요한이서",
+        "요한삼서",
+        "유다서",
+        "요한계시록",
+        "창세기",
+        "출애굽기",
+        "레위기",
+        "민수기",
+        "신명기",
+        "여호수아",
+        "사사기",
+        "사무엘상",
+        "사무엘하",
+        "열왕기상",
+        "열왕기하",
+        "역대상",
+        "역대하",
+        "에스라",
+        "베들레헴",
+        "갈릴리",
+        "겟세마네",
+        "골고다",
+        "예루살렘",
+        "이스라엘",
+        "가나안",
+        "애굽",
+        "나사렛",
+        "사마리아",
+      ],
   },
 ];
 
 const levels = RAW_LEVELS.map((level) => ({
   ...level,
-  words: level.words.filter((word) => wordUsesOnlyRows(word, level.rows)),
+  words: [...new Set(level.words)].filter((word) => wordUsesOnlyRows(word, level.rows)),
 }));
 
 const els = {
@@ -214,8 +399,9 @@ const els = {
 
 const state = {
   levelIndex: 0,
-  wordIndex: 0,
+  remainingWords: [],
   currentWord: "",
+  previousWord: "",
   completed: 0,
   totalInput: 0,
   mistakes: 0,
@@ -289,7 +475,7 @@ function buildKeyboard() {
 
 function setLevel(index) {
   state.levelIndex = index;
-  state.wordIndex = 0;
+  state.remainingWords = [];
   state.locked = false;
   buildLevelTabs();
   setNextWord();
@@ -297,8 +483,16 @@ function setLevel(index) {
 
 function setNextWord() {
   const level = levels[state.levelIndex];
-  state.currentWord = level.words[state.wordIndex % level.words.length];
-  state.wordIndex += 1;
+  if (state.remainingWords.length === 0) {
+    state.remainingWords = shuffleWords(level.words);
+    if (state.remainingWords[0] === state.currentWord && state.remainingWords.length > 1) {
+      const first = state.remainingWords.shift();
+      state.remainingWords.push(first);
+    }
+  }
+
+  state.previousWord = state.currentWord;
+  state.currentWord = state.remainingWords.shift();
   state.locked = false;
 
   els.targetWord.textContent = state.currentWord;
@@ -310,6 +504,17 @@ function setNextWord() {
   updateProgress();
   updateKeyboard();
   els.typingInput.focus();
+}
+
+function shuffleWords(words) {
+  const shuffled = [...words];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+
+  return shuffled;
 }
 
 function updateKeyboard() {

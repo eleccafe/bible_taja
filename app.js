@@ -406,6 +406,7 @@ const state = {
   totalInput: 0,
   mistakes: 0,
   startedAt: null,
+  isComposing: false,
   locked: false,
 };
 
@@ -546,8 +547,9 @@ function updateStats() {
   els.speed.textContent = speed;
 }
 
-function handleTyping() {
+function handleTyping(event) {
   if (state.locked) return;
+  if (state.isComposing || event?.isComposing) return;
   if (!state.startedAt) state.startedAt = Date.now();
 
   const value = els.typingInput.value.trim();
@@ -588,6 +590,13 @@ function resetStats() {
 }
 
 els.typingInput.addEventListener("input", handleTyping);
+els.typingInput.addEventListener("compositionstart", () => {
+  state.isComposing = true;
+});
+els.typingInput.addEventListener("compositionend", () => {
+  state.isComposing = false;
+  handleTyping();
+});
 els.skipButton.addEventListener("click", setNextWord);
 els.resetButton.addEventListener("click", resetStats);
 

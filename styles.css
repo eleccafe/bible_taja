@@ -137,13 +137,23 @@ h1 {
 }
 
 .target-word {
-  min-height: 108px;
+  min-height: 98px;
   display: flex;
   align-items: center;
   font-size: clamp(3rem, 12vw, 8rem);
   line-height: 1;
   font-weight: 900;
   letter-spacing: 0;
+  word-break: keep-all;
+}
+
+.word-verse {
+  min-height: 34px;
+  margin: -4px 0 22px;
+  color: var(--accent-strong);
+  font-size: clamp(1rem, 2vw, 1.22rem);
+  font-weight: 800;
+  line-height: 1.45;
   word-break: keep-all;
 }
 

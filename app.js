@@ -570,9 +570,10 @@ const state = {
   currentWord: "",
   previousWord: "",
   completed: 0,
+  wordStartedAt: null,
+  lastWordSpeed: 0,
   totalInput: 0,
   mistakes: 0,
-  startedAt: null,
   isComposing: false,
   locked: false,
 };
@@ -670,6 +671,7 @@ function setNextWord() {
   els.typingInput.classList.remove("is-wrong");
   els.feedback.classList.remove("is-wrong");
   els.feedback.textContent = "한글 두벌식 입력 상태에서 시작하세요.";
+  state.wordStartedAt = null;
   updateProgress();
   updateKeyboard();
   els.typingInput.focus();
@@ -707,20 +709,18 @@ function updateProgress() {
 function updateStats() {
   const correct = Math.max(0, state.totalInput - state.mistakes);
   const accuracy = state.totalInput === 0 ? 100 : Math.round((correct / state.totalInput) * 100);
-  const minutes = state.startedAt ? (Date.now() - state.startedAt) / 60000 : 0;
-  const speed = minutes > 0 ? Math.round(correct / minutes) : 0;
 
   els.typedCount.textContent = state.completed;
   els.accuracy.textContent = `${Math.max(0, accuracy)}%`;
-  els.speed.textContent = speed;
+  els.speed.textContent = state.lastWordSpeed;
 }
 
 function handleTyping(event) {
   if (state.locked) return;
   if (state.isComposing || event?.isComposing) return;
-  if (!state.startedAt) state.startedAt = Date.now();
 
   const value = els.typingInput.value.trim();
+  if (value && !state.wordStartedAt) state.wordStartedAt = Date.now();
   state.totalInput += 1;
   updateProgress();
 
@@ -735,24 +735,40 @@ function handleTyping(event) {
 
   els.typingInput.classList.remove("is-wrong");
   els.feedback.classList.remove("is-wrong");
-  els.feedback.textContent = value === state.currentWord ? "완료했습니다." : "좋습니다. 계속 입력하세요.";
-
-  if (value === state.currentWord) {
-    state.completed += 1;
-    state.locked = true;
-    updateStats();
-    window.setTimeout(setNextWord, 450);
-    return;
-  }
+  els.feedback.textContent =
+    value === state.currentWord ? "Enter를 눌러 완료하세요." : "좋습니다. 계속 입력하세요.";
 
   updateStats();
 }
 
+function completeCurrentWord() {
+  if (state.locked) return;
+
+  const value = els.typingInput.value.trim();
+  if (value !== state.currentWord) {
+    els.feedback.classList.add("is-wrong");
+    els.feedback.textContent = "단어를 정확히 입력한 뒤 Enter를 누르세요.";
+    return;
+  }
+
+  const elapsedMinutes = Math.max((Date.now() - (state.wordStartedAt ?? Date.now())) / 60000, 1 / 60000);
+  const wordKeystrokes = keysForText(state.currentWord).length;
+
+  state.completed += 1;
+  state.lastWordSpeed = Math.round(wordKeystrokes / elapsedMinutes);
+  state.locked = true;
+  els.feedback.classList.remove("is-wrong");
+  els.feedback.textContent = "완료했습니다.";
+  updateStats();
+  window.setTimeout(setNextWord, 450);
+}
+
 function resetStats() {
   state.completed = 0;
+  state.wordStartedAt = null;
+  state.lastWordSpeed = 0;
   state.totalInput = 0;
   state.mistakes = 0;
-  state.startedAt = null;
   updateStats();
   setNextWord();
 }
@@ -764,6 +780,12 @@ els.typingInput.addEventListener("compositionstart", () => {
 els.typingInput.addEventListener("compositionend", () => {
   state.isComposing = false;
   handleTyping();
+});
+els.typingInput.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  if (state.isComposing || event.isComposing) return;
+  event.preventDefault();
+  completeCurrentWord();
 });
 els.skipButton.addEventListener("click", setNextWord);
 els.resetButton.addEventListener("click", resetStats);
